@@ -1,13 +1,12 @@
 import { useRef, useEffect, useState } from "react";
-import { BarcodeDetectorPolyfill } from '@undecaf/barcode-detector-polyfill'
+import { BarcodeDetectorPolyfill } from "@undecaf/barcode-detector-polyfill";
 function App() {
   const video = useRef(null);
   const canvas = useRef(null);
   const [barcode, setBarcode] = useState(null);
-  const [basket, setBasket] = useState([]);
 
   const openCam = () => {
-     navigator.mediaDevices
+    navigator.mediaDevices
       .getUserMedia({
         video: {
           width: 300,
@@ -15,8 +14,7 @@ function App() {
           facingMode: "environment", // mobilde arka kamerayı açtırmak için
         },
       })
-      .then(async(stream) => {
-
+      .then(async (stream) => {
         video.current.srcObject = stream;
         video.current.play();
 
@@ -25,8 +23,10 @@ function App() {
         // const barcode = window.BarcodeDetector({
         //   formats: ["qr_code", "ean_13"],
         // });
-        const barcode = new BarcodeDetectorPolyfill({ formats: ['qr_code','code_39', 'code_128', 'ean_13'] })
-        // const barcode = new BarcodeDetectorPolyfill({ 
+        const barcode = new BarcodeDetectorPolyfill({
+          formats: ["qr_code", "code_39", "code_128", "ean_13"],
+        });
+        // const barcode = new BarcodeDetectorPolyfill({
         //   formats: ['qr_code'],
         //   zbar: {
         //       encoding: 'iso-8859-15'
@@ -46,7 +46,7 @@ function App() {
           await barcode
             .detect(canvas.current)
             .then(([data]) => {
-              console.log(data)
+              console.log(data);
               if (data) {
                 setBarcode(data.rawValue);
               }
